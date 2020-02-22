@@ -7,6 +7,7 @@
        WindowStartupLocation="CenterScreen"
         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
+    PreviewKeyDown="Window_PreviewKeyDown"
         Title="MainWindow" Height="526.4" Width="843.2">
     <Grid>
         <Grid.RowDefinitions>
@@ -18,18 +19,21 @@
                  Margin="35,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="205" />
         <TextBox HorizontalAlignment="Left" Height="45" Margin="265,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="205"/>
 
-        <dxg:GridControl Name="g1"
+        <dxg:GridControl Name="g1" ClipboardCopyMode="ExcludeHeader"
                          SelectionMode="Cell"
+                         PastingFromClipboard="g1_PastingFromClipboard"
                          AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" Grid.Row="1" Margin="0,0.8,-0.4,0">
 
             <dxg:GridControl.Columns>
                 <dxg:GridColumn FieldName="Ad"/>
                 <dxg:GridColumn FieldName="Soyad"/>
-                <dxg:GridColumn FieldName="Yas"/>
+                <dxg:GridColumn TabStop="True" FieldName="Yas"/>
             </dxg:GridControl.Columns>
 
             <dxg:GridControl.View>
-                <dxg:TableView NewItemRowPosition="Bottom" RowMinHeight="30" ShowTotalSummary="True" AutoWidth="True"/>
+                <dxg:TableView PasteMode="Update" EnterMoveNextColumn="False" 
+                               Name="w1" NewItemRowPosition="Bottom" RowMinHeight="30" 
+                               ShowTotalSummary="True" AutoWidth="True"/>
             </dxg:GridControl.View>
         </dxg:GridControl>
 
