@@ -4,13 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
+       WindowStartupLocation="CenterScreen"
         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="5*"/>
-            <RowDefinition Height="23*"/>
+            <RowDefinition Height="75.2"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBox x:Name="t1"  HorizontalAlignment="Left" Height="40" 
                  
@@ -19,7 +20,7 @@
 
         <dxg:GridControl Name="g1"
                          SelectionMode="Cell"
-                         AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" Grid.Row="1">
+                         AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" Grid.Row="1" Margin="0,0.8,-0.4,0">
 
             <dxg:GridControl.Columns>
                 <dxg:GridColumn FieldName="Ad"/>
