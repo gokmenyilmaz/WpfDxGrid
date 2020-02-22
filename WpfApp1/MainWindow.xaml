@@ -11,11 +11,14 @@
         Title="MainWindow" Height="526.4" Width="843.2">
 
     <Window.Resources>
+        
+
         <Style x:Key="FocusedCellStyle" TargetType="dxg:LightweightCellEditor">
             <Style.Triggers>
                 <Trigger Property="IsFocusedCell" Value="True">
-                    <Setter Property="BorderBrush" Value="Red"/>
-                    <Setter Property="Background" Value="Aqua"/>
+                  
+                    <Setter Property="Background" Value="White"/>
+                    
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -53,11 +56,21 @@
             </dxg:GridControl.Columns>
 
             <dxg:GridControl.View>
-                <dxg:TableView  CellStyle="{StaticResource FocusedCellStyle}" 
+                <dxg:TableView  
+                     ShowFocusedRectangle="True"
+                    CellStyle="{StaticResource FocusedCellStyle}" 
                                   RowStyle="{StaticResource FocusedRowStyle}"
                                 PasteMode="Update" EnterMoveNextColumn="False" 
                                Name="w1" NewItemRowPosition="Bottom" RowMinHeight="30" 
-                               ShowTotalSummary="True" AutoWidth="True"/>
+                               ShowTotalSummary="True" AutoWidth="True">
+                    
+                    <dxg:TableView.FocusedCellBorderTemplate>
+                        <ControlTemplate>
+                            <Border Margin="0" BorderBrush="DarkGreen" BorderThickness="1.5" />
+                        </ControlTemplate>
+                    </dxg:TableView.FocusedCellBorderTemplate>
+                
+                </dxg:TableView>
             </dxg:GridControl.View>
         </dxg:GridControl>
 
