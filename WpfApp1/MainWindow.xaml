@@ -1,0 +1,30 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" x:Class="WpfApp1.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TextBox x:Name="t1"  HorizontalAlignment="Left" Height="40" 
+                 
+                 Margin="35,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="205" />
+        <TextBox HorizontalAlignment="Left" Height="45" Margin="265,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="205"/>
+
+        <dxg:GridControl Name="g1" AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" HorizontalAlignment="Left" Margin="55,101,0,0" VerticalAlignment="Top" Height="239" Width="672">
+
+            <dxg:GridControl.Columns>
+                <dxg:GridColumn FieldName="Ad"/>
+                <dxg:GridColumn FieldName="Soyad"/>
+                <dxg:GridColumn FieldName="Yas"/>
+            </dxg:GridControl.Columns>
+            
+            <dxg:GridControl.View>
+                <dxg:TableView ShowTotalSummary="True"/>
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+
+    </Grid>
+</Window>
