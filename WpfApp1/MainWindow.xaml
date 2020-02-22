@@ -13,9 +13,9 @@
     <Window.Resources>
         <Style x:Key="FocusedCellStyle" TargetType="dxg:LightweightCellEditor">
             <Style.Triggers>
-                <Trigger Property="dxg:DataViewBase.IsFocusedCell" Value="True">
-                    <Setter Property="Background" Value="Blue" />
-                    <Setter Property="Foreground" Value="White" />
+                <Trigger Property="IsFocusedCell" Value="True">
+                    <Setter Property="BorderBrush" Value="Red"/>
+                    <Setter Property="Background" Value="Aqua"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -27,6 +27,8 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        
+        
     </Window.Resources>
 
     <Grid>
