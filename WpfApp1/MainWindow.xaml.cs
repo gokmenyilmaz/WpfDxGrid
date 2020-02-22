@@ -50,10 +50,9 @@ namespace WpfApp1
         {
             InitializeComponent();
 
-            //t1.KeyDown += T1_KeyDown;
-            //t1.PreviewKeyDown += T1_PreviewKeyDown;
 
-            g1.PreviewKeyDown += G1_PreviewKeyDown;
+
+         
 
             var personelListe = new List<Personel>()
             {
@@ -67,72 +66,25 @@ namespace WpfApp1
 
             g1.ItemsSource = personelListe;
 
-            g1.CurrentColumnChanged += G1_CurrentColumnChanged;
+
 
             w1.PreviewKeyDown += W1_PreviewKeyDown;
           
 
         }
 
-        private void G1_CurrentColumnChanged(object sender, DevExpress.Xpf.Grid.CurrentColumnChangedEventArgs e)
+        private void W1_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (!e.NewColumn.TabStop)
-                w1.MoveNextCell();
-        }
-
-        private void G1_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-
-            //if (e.Key == Key.Enter)
-            //{
-            //    //w1.PostEditor();
-
-            //    //SendKeys1.Send(Key.Down);
-            //    w1.MoveNextRow();
-
-
-
-            //    //e.Handled = true;
-            //}
-
-            //if (e.Key == Key.Enter)
-            //{
-            //    Dispatcher.BeginInvoke(new Action(() =>
-            //    {
-            //        w1.CommitEditing();
-            //        //w1.MoveNextRow();
-            //        //g1.SelectedItem = g1.GetRow(w1.FocusedRowHandle);
-            //        //e.Handled = true;
-            //    }));
-            //}
-
             if (e.Key == Key.Enter)
             {
-       
-                if (g1.VisibleRowCount == w1.FocusedRowHandle + 1 && g1.CurrentColumn == w1.VisibleColumns.Last() || 
-                    g1.VisibleRowCount == 0)
-                {
-                    w1.AddNewRow();
-                    w1.FocusedRowHandle = GridControl.NewItemRowHandle; 
-                   
+                e.Handled = true;
+                w1.MoveNextRow();
+              
 
-                    e.Handled = true;
-                }
             }
         }
 
-        private void W1_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-           
-        }
-
-    
-
-        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-
-           
-        }
+      
 
         private void g1_PastingFromClipboard(object sender, PastingFromClipboardEventArgs e)
         {

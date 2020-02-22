@@ -7,8 +7,28 @@
        WindowStartupLocation="CenterScreen"
         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
-    PreviewKeyDown="Window_PreviewKeyDown"
+   
         Title="MainWindow" Height="526.4" Width="843.2">
+
+    <Window.Resources>
+        <Style x:Key="FocusedCellStyle" TargetType="dxg:LightweightCellEditor">
+            <Style.Triggers>
+                <Trigger Property="dxg:DataViewBase.IsFocusedCell" Value="True">
+                    <Setter Property="Background" Value="Blue" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="FocusedRowStyle" TargetType="dxg:RowControl">
+            <Style.Triggers>
+                <Trigger Property="dxg:DataViewBase.IsFocusedRow" Value="True">
+                    <Setter Property="Background" Value="WhiteSmoke" />
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="75.2"/>
@@ -31,7 +51,9 @@
             </dxg:GridControl.Columns>
 
             <dxg:GridControl.View>
-                <dxg:TableView PasteMode="Update" EnterMoveNextColumn="False" 
+                <dxg:TableView  CellStyle="{StaticResource FocusedCellStyle}" 
+                                  RowStyle="{StaticResource FocusedRowStyle}"
+                                PasteMode="Update" EnterMoveNextColumn="False" 
                                Name="w1" NewItemRowPosition="Bottom" RowMinHeight="30" 
                                ShowTotalSummary="True" AutoWidth="True"/>
             </dxg:GridControl.View>
