@@ -7,7 +7,7 @@
        WindowStartupLocation="CenterScreen"
         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="526.4" Width="843.2">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="75.2"/>
