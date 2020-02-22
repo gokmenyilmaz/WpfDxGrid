@@ -59,16 +59,24 @@ namespace WpfApp1
                 new Personel { Ad = "ayhan", Soyad = "uzun", Yas = 233 }
             };
 
+
             g1.ItemsSource = personelListe;
 
+            g1.PreviewKeyDown += G1_PreviewKeyDown;
+
+        }
+
+        private void G1_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                SendKeys.Send(Key.Down);
+            }
         }
 
         private void T1_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
-            {
-                SendKeys.Send(Key.Tab);
-            }
+           
         }
 
         private void T1_KeyDown(object sender, KeyEventArgs e)
