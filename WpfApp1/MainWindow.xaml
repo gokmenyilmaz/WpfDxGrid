@@ -8,25 +8,27 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="23*"/>
+        </Grid.RowDefinitions>
         <TextBox x:Name="t1"  HorizontalAlignment="Left" Height="40" 
                  
                  Margin="35,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="205" />
         <TextBox HorizontalAlignment="Left" Height="45" Margin="265,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="205"/>
 
-        <dxg:GridControl Name="g1" 
+        <dxg:GridControl Name="g1"
                          SelectionMode="Cell"
-                         AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" 
-                         HorizontalAlignment="Left" Margin="55,101,0,0" VerticalAlignment="Top"
-                         Height="239" Width="672">
+                         AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" Grid.Row="1">
 
             <dxg:GridControl.Columns>
                 <dxg:GridColumn FieldName="Ad"/>
                 <dxg:GridColumn FieldName="Soyad"/>
                 <dxg:GridColumn FieldName="Yas"/>
             </dxg:GridControl.Columns>
-            
+
             <dxg:GridControl.View>
-                <dxg:TableView  RowMinHeight="30" ShowTotalSummary="True"/>
+                <dxg:TableView NewItemRowPosition="Bottom" RowMinHeight="30" ShowTotalSummary="True" AutoWidth="True"/>
             </dxg:GridControl.View>
         </dxg:GridControl>
 

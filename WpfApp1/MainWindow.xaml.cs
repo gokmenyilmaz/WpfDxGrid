@@ -68,10 +68,10 @@ namespace WpfApp1
 
         private void G1_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
-            {
-                SendKeys.Send(Key.Down);
-            }
+            //if (e.Key == Key.Enter)
+            //{
+            //    SendKeys.Send(Key.Down);
+            //}
         }
 
         private void T1_PreviewKeyDown(object sender, KeyEventArgs e)
