@@ -163,6 +163,8 @@ namespace WpfApp1
             {
                 if (row.RowHandle >= w1.FocusedRowHandle)
                 {
+                    w1.FocusedRowHandle = row.RowHandle;
+
                     for (int i = 0; i < clipboardData.Count; i++)
                     {
                         
@@ -171,10 +173,8 @@ namespace WpfApp1
                             g1.SetCellValue(w1.FocusedRowHandle, w1.VisibleColumns[first_col_index + j], clipboardData[i][j]);
                         }
 
-                        if (w1.FocusedRowHandle+1 > seciliHucreler.Last().RowHandle) return;
                         w1.FocusedRowHandle++;
                     }
-                    
                 }
 
             }
