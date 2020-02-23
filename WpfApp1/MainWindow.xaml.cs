@@ -1,4 +1,5 @@
-﻿using DevExpress.Xpf.Grid;
+﻿using DevExpress.Xpf.Bars;
+using DevExpress.Xpf.Grid;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,6 +83,11 @@ namespace WpfApp1
               
 
             }
+
+            if (e.Key == Key.Left && g1.CurrentColumn.VisibleIndex == 0) e.Handled = true;
+            
+            if (e.Key == Key.Right && (g1.CurrentColumn.VisibleIndex == w1.VisibleColumns.Count - 1)) e.Handled = true; 
+         
         }
 
       
@@ -131,6 +137,29 @@ namespace WpfApp1
 
             }
             w1.FocusedRowHandle--;
+        }
+
+        private void copyCellDataItem_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            GridCellMenuInfo menuInfo = w1.GridMenu.MenuInfo as GridCellMenuInfo;
+            if (menuInfo != null && menuInfo.Row != null)
+            {
+                string text = "" +
+                    g1.GetCellValue(menuInfo.Row.RowHandle.Value, menuInfo.Column as GridColumn).ToString();
+                Clipboard.SetText(text);
+            }
+        }
+
+        private void deleteRowItem_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            GridCellMenuInfo menuInfo = w1.GridMenu.MenuInfo as GridCellMenuInfo;
+            if (menuInfo != null && menuInfo.Row != null)
+                w1.DeleteRow(menuInfo.Row.RowHandle.Value);
+        }
+
+        private void paste_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            
         }
     }
 }

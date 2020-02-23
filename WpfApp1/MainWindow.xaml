@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
        WindowStartupLocation="CenterScreen"
-        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid" x:Class="WpfApp1.MainWindow"
+        xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
    
         Title="MainWindow" Height="526.4" Width="843.2">
@@ -69,8 +70,20 @@
                             <Border Margin="0" BorderBrush="DarkGreen" BorderThickness="1.5" />
                         </ControlTemplate>
                     </dxg:TableView.FocusedCellBorderTemplate>
-                
+
+                    <dxg:TableView.RowCellMenuCustomizations>
+                        <dxb:BarButtonItem Name="deleteRowItem" Content="Delete" ItemClick="deleteRowItem_ItemClick" />
+                        <dxb:BarButtonItem Name="copyCellDataItem" Content="Copy Cell Data" ItemClick="copyCellDataItem_ItemClick" />
+                        <dxb:BarButtonItem Name="paste" Content="paste" ItemClick="paste_ItemClick" />
+
+                       
+                    </dxg:TableView.RowCellMenuCustomizations>
+
                 </dxg:TableView>
+                
+               
+
+
             </dxg:GridControl.View>
         </dxg:GridControl>
 
