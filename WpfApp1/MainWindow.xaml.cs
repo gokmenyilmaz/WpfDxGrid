@@ -78,9 +78,13 @@ namespace WpfApp1
         {
             if (e.Key == Key.Enter)
             {
+           
+        
                 e.Handled = true;
                 w1.MoveNextRow();
-              
+
+            
+
 
             }
 

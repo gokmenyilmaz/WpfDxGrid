@@ -14,7 +14,7 @@
     <Window.Resources>
         
 
-        <Style x:Key="FocusedCellStyle" TargetType="dxg:LightweightCellEditor">
+        <Style TargetType="dxg:LightweightCellEditor">
             <Style.Triggers>
                 <Trigger Property="IsFocusedCell" Value="True">
                   
@@ -23,7 +23,9 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="FocusedRowStyle" TargetType="dxg:RowControl">
+        
+        
+        <Style TargetType="dxg:RowControl">
             <Style.Triggers>
                 <Trigger Property="dxg:DataViewBase.IsFocusedRow" Value="True">
                     <Setter Property="Background" Value="WhiteSmoke" />
@@ -59,8 +61,6 @@
             <dxg:GridControl.View>
                 <dxg:TableView  
                      ShowFocusedRectangle="True"
-                    CellStyle="{StaticResource FocusedCellStyle}" 
-                                  RowStyle="{StaticResource FocusedRowStyle}"
                                 PasteMode="Update" EnterMoveNextColumn="False" 
                                Name="w1" NewItemRowPosition="Bottom" RowMinHeight="30" 
                                ShowTotalSummary="True" AutoWidth="True">
