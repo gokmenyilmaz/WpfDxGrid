@@ -69,23 +69,17 @@ namespace WpfApp1
 
 
 
-            w1.PreviewKeyDown += W1_PreviewKeyDown;
+            w1.PreviewKeyDown += w1_PreviewKeyDown;
           
 
         }
 
-        private void W1_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void w1_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-           
-        
                 e.Handled = true;
                 w1.MoveNextRow();
-
-            
-
-
             }
 
             if (e.Key == Key.Left && g1.CurrentColumn.VisibleIndex == 0) e.Handled = true;

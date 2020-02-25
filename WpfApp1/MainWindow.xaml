@@ -52,10 +52,28 @@
                          PastingFromClipboard="g1_PastingFromClipboard"
                          AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" Grid.Row="1" Margin="0,0.8,-0.4,0">
 
+            <dxg:GridControl.TotalSummary>
+                <dxg:GridSummaryItem  FieldName="Yas"/>
+            </dxg:GridControl.TotalSummary>
+            
             <dxg:GridControl.Columns>
                 <dxg:GridColumn FieldName="Ad"/>
                 <dxg:GridColumn FieldName="Soyad"/>
-                <dxg:GridColumn TabStop="True" FieldName="Yas"/>
+                <dxg:GridColumn TabStop="True" FieldName="Yas">
+                    <dxg:GridColumn.TotalSummaryContentStyle>
+                        <Style TargetType="dxg:TotalSummaryContentPresenter">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="Total"/>
+                                    </DataTemplate>
+
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </dxg:GridColumn.TotalSummaryContentStyle>
+
+                </dxg:GridColumn>
             </dxg:GridControl.Columns>
 
             <dxg:GridControl.View>
@@ -64,6 +82,7 @@
                                 PasteMode="Update" EnterMoveNextColumn="False" 
                                Name="w1" NewItemRowPosition="Bottom" RowMinHeight="30" 
                                ShowTotalSummary="True" AutoWidth="True">
+                   
                     
                     <dxg:TableView.FocusedCellBorderTemplate>
                         <ControlTemplate>
