@@ -61,19 +61,33 @@
             <dxg:GridControl.Columns>
                 <dxg:GridColumn FieldName="Ad"/>
                 <dxg:GridColumn FieldName="Soyad"/>
+
+                <dxg:GridColumn FieldName="Indirim"/>
+                
                 <dxg:GridColumn TabStop="True" FieldName="Yas">
-                    <!--<dxg:GridColumn.TotalSummaryContentStyle>
+                    <dxg:GridColumn.TotalSummaryContentStyle>
                         <Style TargetType="dxg:TotalSummaryContentPresenter">
                             <Setter Property="ContentTemplate">
                                 <Setter.Value>
                                     <DataTemplate>
-                                        <TextBlock Text="Total"/>
+                                        <StackPanel>
+                                            <TextBox Text="" />
+                                            <TextBlock Text="{Binding Column.TotalSummaryText}">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Setter Property="Foreground" Value="Red"/>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </StackPanel>
+                                       
                                     </DataTemplate>
-
                                 </Setter.Value>
                             </Setter>
+                            
+                         
                         </Style>
-                    </dxg:GridColumn.TotalSummaryContentStyle>-->
+                    </dxg:GridColumn.TotalSummaryContentStyle>
 
                 </dxg:GridColumn>
             </dxg:GridControl.Columns>

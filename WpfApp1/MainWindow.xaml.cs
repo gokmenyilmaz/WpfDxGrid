@@ -41,6 +41,8 @@ namespace WpfApp1
         public string Soyad { get; set; }
         public int Yas { get; set; }
 
+        public int Indirim { get; set; }
+
     }
 
     public partial class MainWindow : Window
@@ -57,11 +59,11 @@ namespace WpfApp1
 
             var personelListe = new List<Personel>()
             {
-                new Personel { Ad="gökmen",Soyad="a",Yas=23},
-                new Personel { Ad = "musa", Soyad = "b", Yas = 44 },
-                new Personel { Ad = "ayhan", Soyad = "c", Yas = 233 },
-                new Personel { Ad = "faruk", Soyad = "d", Yas = 44 },
-                new Personel { Ad = "izzet", Soyad = "e", Yas = 233 }
+                new Personel { Ad="gökmen",Soyad="a",Yas=23,Indirim=0},
+                new Personel { Ad = "musa", Soyad = "b", Yas = 44,Indirim=0 },
+                new Personel { Ad = "ayhan", Soyad = "c", Yas = 233,Indirim=0 },
+                new Personel { Ad = "faruk", Soyad = "d", Yas = 44,Indirim=0 },
+                new Personel { Ad = "izzet", Soyad = "e", Yas = 233,Indirim=0 }
             };
 
 
