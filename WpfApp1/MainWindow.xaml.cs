@@ -1,4 +1,5 @@
-﻿using DevExpress.Xpf.Bars;
+﻿using DevExpress.Data;
+using DevExpress.Xpf.Bars;
 using DevExpress.Xpf.Grid;
 using System;
 using System.Collections.Generic;
@@ -72,8 +73,54 @@ namespace WpfApp1
 
 
             w1.PreviewKeyDown += w1_PreviewKeyDown;
+
+            g1.CustomSummary += G1_CustomSummary;
           
 
+        }
+
+   
+        int yasToplam = 0;
+
+        int indirim = 100;
+        private void G1_CustomSummary(object sender, DevExpress.Data.CustomSummaryEventArgs e)
+        {
+
+            if (e.IsTotalSummary)
+            {
+                if (((GridSummaryItem)e.Item).FieldName == "Yas")
+                {
+                    AgirlikliOrtalamaHesapla(e, "EUR");
+
+                }
+             
+            }
+
+        }
+
+
+        private void AgirlikliOrtalamaHesapla(CustomSummaryEventArgs e, string DovizTur)
+        {
+            if (e.SummaryProcess == CustomSummaryProcess.Start)
+            {
+                yasToplam = 0;
+            }
+
+            if (e.SummaryProcess == CustomSummaryProcess.Calculate)
+            {
+                if (e.Row != null)
+                {
+                    var lme = (Personel)e.Row;
+
+                    yasToplam += lme.Yas;
+                }
+            }
+
+            if (e.SummaryProcess == CustomSummaryProcess.Finalize)
+            {
+
+                e.TotalValue = yasToplam-indirim;
+            }
         }
 
         private void w1_PreviewKeyDown(object sender, KeyEventArgs e)
