@@ -12,7 +12,7 @@
         x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
 
-        Title="MainWindow" Height="451.4" Width="703.2">
+        Title="MainWindow" Height="521.4" Width="703.2">
 
     <dxmvvm:Interaction.Behaviors>
 

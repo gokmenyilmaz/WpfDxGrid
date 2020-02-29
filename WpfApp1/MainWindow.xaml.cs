@@ -10,7 +10,7 @@ namespace WpfApp1
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var handle = (int)values[0];
+            var handle = (int)values[0] + 1;
             var grid = (GridControl)values[1];
             return grid.GetRowVisibleIndexByHandle(handle).ToString();
         }
