@@ -5,54 +5,40 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
-    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
        WindowStartupLocation="CenterScreen"
         x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
    
         Title="MainWindow" Height="526.4" Width="843.2">
 
-    <Window.Resources>
+
+    <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand EventName="PastingFromClipboard"
+                                       Command="{Binding PasteCommand}"
+                                       SourceObject="{Binding ElementName=g1}" PassEventArgsToCommand="True"/>
+
+        <dxmvvm:EventToCommand EventName="ClipboardRowCellValuePasting"
+                                       Command="{Binding ClipboardRowCellValuePastingCommand}"
+                                       CommandParameter="{x:Reference w1}"
+                                       SourceObject="{Binding ElementName=w1}" PassEventArgsToCommand="True"/>
 
 
-        <Style TargetType="{x:Type dxg:LightweightCellEditor}">
-            <Style.Triggers>
-                <Trigger Property="IsFocusedCell" Value="True">
+    </dxmvvm:Interaction.Behaviors>
 
-                    <Setter Property="Background" Value="White"/>
-
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-
-        <Style TargetType="{x:Type dxg:RowControl}">
-            <Style.Triggers>
-                <Trigger Property="dxg:DataViewBase.IsFocusedRow" Value="True">
-                    <Setter Property="Background" Value="WhiteSmoke" />
-                    <Setter Property="Foreground" Value="Black" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-
-    </Window.Resources>
-
+   
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="75.2"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <TextBox x:Name="t1"  HorizontalAlignment="Left" Height="40" 
-                 
-                 Margin="35,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="205" />
-        <TextBox HorizontalAlignment="Left" Height="45" Margin="265,25,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="205"/>
+      
 
-        <dxg:GridControl x:Name="g1" ClipboardCopyMode="ExcludeHeader"
-                         SelectionMode="Cell"
-                       
-                         PastingFromClipboard="g1_PastingFromClipboard"
-                         AutoGenerateColumns="AddNew" EnableSmartColumnsGeneration="True" Grid.Row="1" Margin="0,0.8,-0.4,0">
+        <dxg:GridControl x:Name="g1" ClipboardCopyMode="ExcludeHeader" 
+                       ItemsSource="{Binding PersonelListe,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                       SelectionMode="Cell"
+                       EnableSmartColumnsGeneration="True" Grid.Row="1" Margin="0,0.8,-0.4,0">
 
             <dxg:GridControl.TotalSummary>
                   <dxg:GridSummaryItem Tag="1"  SummaryType="Custom" FieldName="Yas" />
@@ -63,9 +49,7 @@
                      ShowFocusedRectangle="True"
                                 PasteMode="Update" EnterMoveNextColumn="False" 
                                x:Name="w1" NewItemRowPosition="Bottom" RowMinHeight="30" 
-                   
                                ShowTotalSummary="True" AutoWidth="True">
-
 
                     <dxg:TableView.FocusedCellBorderTemplate>
                         <ControlTemplate>
@@ -74,61 +58,20 @@
                     </dxg:TableView.FocusedCellBorderTemplate>
 
                     <dxg:TableView.RowCellMenuCustomizations>
-                        <dxb:BarButtonItem x:Name="deleteRowItem" Content="Delete" ItemClick="deleteRowItem_ItemClick" />
-                        <dxb:BarButtonItem x:Name="copyCellDataItem" Content="Copy Cell Data" ItemClick="copyCellDataItem_ItemClick" />
-                        <dxb:BarButtonItem x:Name="paste" Content="paste" ItemClick="paste_ItemClick" />
-
-
+                        <dxb:BarButtonItem Content="Kopyala" Command="ApplicationCommands.Copy"/>
+                        <dxb:BarButtonItem Content="Yapıştır" Command="ApplicationCommands.Paste"/>
                     </dxg:TableView.RowCellMenuCustomizations>
 
                 </dxg:TableView>
 
-
-
-
             </dxg:GridControl.View>
-            <dxmvvm:Interaction.Behaviors>
-                <dxmvvm:EventToCommand EventName="CustomSummary" Command="{Binding OzelToplamCommand}" SourceName="g1">
-                  
-                </dxmvvm:EventToCommand>
-            </dxmvvm:Interaction.Behaviors>
+       
             <dxg:GridColumn FieldName="Ad"/>
             <dxg:GridColumn FieldName="Soyad"/>
-
             <dxg:GridColumn FieldName="Indirim"/>
-
-            <dxg:GridColumn TabStop="True" FieldName="Yas">
-                <dxg:GridColumn.TotalSummaryContentStyle>
-                    <Style TargetType="{x:Type dxg:TotalSummaryContentPresenter}">
-                        <Setter Property="ContentTemplate">
-                            <Setter.Value>
-                                <DataTemplate>
-                                    <StackPanel>
-
-                                        <TextBlock Text="{Binding Column.TotalSummaryText}">
-                                            <TextBlock.Style>
-                                                <Style TargetType="{x:Type TextBlock}">
-                                                    <Setter Property="Foreground" Value="Red"/>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-
-                                        <TextBox Text="" />
-
-                                        <TextBox Text="" />
+            <dxg:GridColumn FieldName="Yas"/>
 
 
-                                    </StackPanel>
-
-                                </DataTemplate>
-                            </Setter.Value>
-                        </Setter>
-
-
-                    </Style>
-                </dxg:GridColumn.TotalSummaryContentStyle>
-
-            </dxg:GridColumn>
         </dxg:GridControl>
 
     </Grid>
