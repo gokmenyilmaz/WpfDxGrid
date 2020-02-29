@@ -44,7 +44,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <dxg:GridControl x:Name="g1" ClipboardCopyMode="ExcludeHeader"
+        <dxg:GridControl x:Name="g1" ClipboardCopyMode="ExcludeHeader" AllowRecursiveSelectionForCollapsedGroups="True"
                        ItemsSource="{Binding PersonelListe,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                        SelectionMode="Cell"
                        EnableSmartColumnsGeneration="True" Grid.Row="1" Margin="0,0.8,-0.4,0">
@@ -93,7 +93,9 @@
             </dxg:GridControl.View>
 
             <dxg:GridColumn FieldName="Ad" />
-            <dxg:GridColumn FieldName="Soyad" />
+            <dxg:GridColumn FieldName="KafileNo" />
+            <dxg:GridColumn FieldName="Soyad">
+            </dxg:GridColumn>
             <dxg:GridColumn FieldName="Indirim" />
             <dxg:GridColumn FieldName="Yas" />
         </dxg:GridControl>

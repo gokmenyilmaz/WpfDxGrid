@@ -11,6 +11,9 @@ namespace WpfApp1
     public class Personel
     {
         public string Ad { get; set; }
+
+        public int? KafileNo { get; set; }
+
         public string Soyad { get; set; }
         public int? Yas { get; set; }
 
@@ -22,39 +25,78 @@ namespace WpfApp1
         public DelegateCommand<PastingFromClipboardEventArgs> PastingFromClipboardCommand =>
           new DelegateCommand<PastingFromClipboardEventArgs>(OnPastingFromClipboard);
 
-        public DelegateCommand<ClipboardRowPastingEventArgs> RowPastingCommand =>
-            new DelegateCommand<ClipboardRowPastingEventArgs>(OnClipboardRowPasting);
-
-        public DelegateCommand<ClipboardRowCellValuePastingEventArgs> RowCellValuePastingCommand =>
-            new DelegateCommand<ClipboardRowCellValuePastingEventArgs>(OnRowCellValuePasting);
-
         public DelegateCommand<KeyEventArgs> KeyDownCommand => new DelegateCommand<KeyEventArgs>(OnKeyDown);
 
-        private void OnPastingFromClipboard(PastingFromClipboardEventArgs obj)
+        private void OnPastingFromClipboard(PastingFromClipboardEventArgs e)
         {
-            var w1 = (obj.Source as GridControl).View as TableView;
+            e.Handled = true;
+
+            var w1 = (e.Source as GridControl).View as TableView;
             var g1 = w1.Grid;
 
-            var seciliHucreler = w1.GetSelectedCells();
+            var clipboardData = GetClipboardData();
 
+            var selectedRows = w1.GetSelectedRows();
+            var selectedCells = w1.GetSelectedCells();
+
+            var first_row_handle = selectedRows.First().RowHandle;
+            var first_col_index = selectedCells.First().Column.VisibleIndex;
+
+            var cColLength = clipboardData.First().Length;
+
+            w1.FocusedRowHandle = first_row_handle;
+
+            foreach (var row in selectedRows)
+            {
+                if (row.RowHandle >= w1.FocusedRowHandle)
+                {
+                    w1.FocusedRowHandle = row.RowHandle;
+
+                    for (int i = 0; i < clipboardData.Count; i++)
+                    {
+                        for (int j = 0; j < cColLength; j++)
+                        {
+                            var column = w1.VisibleColumns[first_col_index + j];
+                            g1.SetCellValue(w1.FocusedRowHandle, column, clipboardData[i][j]);
+
+                            OnCellValueChanged(column.FieldName, g1.GetRow(w1.FocusedRowHandle), clipboardData[i][j]);
+                        }
+
+                        w1.FocusedRowHandle++;
+                    }
+                }
+            }
+            w1.FocusedRowHandle--;
+        }
+
+        private void OnCellValueChanged(string fieldName, object row, object value)
+        {
+            if (fieldName == "KafileNo")
+            {
+                var perRow = (Personel)row;
+                var kafileNo = value.ToString().Length == 0 ? -1 : int.Parse(value.ToString());
+
+                var satir = PersonelListe.Where(c => c.KafileNo == kafileNo).FirstOrDefault();
+                if (satir != null)
+                {
+                    perRow.Yas = satir.Yas;
+                }
+            }
+        }
+
+        public List<string[]> GetClipboardData()
+        {
             var rawDataStr = Clipboard.GetText();
 
             List<string[]> clipboardData = new List<string[]>();
-            string[] rows = rawDataStr.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] rows = rawDataStr.Split(new string[] { "\r\n" }, StringSplitOptions.None);
 
-            foreach (var item in rows) clipboardData.Add(item.Split('\t'));
-        }
-
-        private void OnClipboardRowPasting(ClipboardRowPastingEventArgs obj)
-        {
-        }
-
-        private void OnRowCellValuePasting(ClipboardRowCellValuePastingEventArgs e)
-        {
-            if (e.Column.FieldName == "Ad")
+            foreach (var item in rows)
             {
-                var satir = PersonelListe.Where(c => c.Ad == e.Value.ToString());
+                clipboardData.Add(item.Split('\t'));
             }
+
+            return clipboardData;
         }
 
         private void OnKeyDown(KeyEventArgs e)
@@ -78,9 +120,9 @@ namespace WpfApp1
         {
             PersonelListe = new List<Personel>()
             {
-                new Personel { Ad="gökmen",Soyad="a",Yas=23,Indirim=0},
+                new Personel { Ad="gökmen",Soyad="a",Yas=23,Indirim=0,KafileNo=100},
                 new Personel { Ad = "musa", Soyad = "b", Yas = 44,Indirim=0 },
-                new Personel { Ad = "ayhan", Soyad = "c", Yas = 233,Indirim=0 },
+                new Personel { Ad = "ayhan", Soyad = "c", Yas = 233,Indirim=0,KafileNo=200 },
                 new Personel { Ad = "faruk", Soyad = "d", Yas = 44,Indirim=0 },
                 new Personel { Ad = "izzet", Soyad = "e", Yas = 233,Indirim=0 }
             };
@@ -89,29 +131,6 @@ namespace WpfApp1
             {
                 PersonelListe.Add(new Personel { Ad = "." });
             }
-        }
-
-        private void FillCellsWithValue(GridCell targetRange)
-        {
-            //for (int columnIndex = 0; columnIndex < targetRange.ColumnCount; columnIndex++)
-            //{
-            //    for (int rowIndex = 1; rowIndex < targetRange.RowCount; rowIndex++)
-            //    {
-            //        if (targetRange[rowIndex, columnIndex].Value.IsEmpty)
-            //        {
-            //            // in case of column merge leave it empty
-            //            if (targetRange[rowIndex, columnIndex].IsMerged)
-            //            {
-            //                if (targetRange[rowIndex, columnIndex].GetMergedRanges().First().ColumnCount == 1)
-            //                    targetRange[rowIndex, columnIndex].Value = targetRange[rowIndex - 1, columnIndex].Value;
-            //            }
-            //            else
-            //            {
-            //                if (targetRange[rowIndex, columnIndex].Value.IsNumeric)
-            //                    targetRange[rowIndex, columnIndex].Value = targetRange[rowIndex - 1, columnIndex].Value;
-            //            }
-            //        }
-            //    }
         }
     }
 }
