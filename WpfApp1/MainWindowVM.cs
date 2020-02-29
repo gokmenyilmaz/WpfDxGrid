@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace WpfApp1
 {
@@ -23,7 +24,23 @@ namespace WpfApp1
 
         //public DelegateCommand<ClipboardRowCellValuePastingEventArgs> ClipboardRowCellValuePastingCommand => new DelegateCommand<ClipboardRowCellValuePastingEventArgs>(OnCellValuePasting);
 
-       
+        public DelegateCommand<KeyEventArgs> KeyDownCommand => new DelegateCommand<KeyEventArgs>(OnKeyDown);
+
+        private void OnKeyDown(KeyEventArgs e)
+        {
+            if(e.Key==Key.Delete)
+            {
+                var w1 = (e.Source as TableView);
+              
+                var cells =w1.GetSelectedCells();
+
+                foreach (var cell in cells)
+                {
+                    w1.Grid.SetCellValue(cell.RowHandle, cell.Column, null);
+                }
+
+            }
+        }
 
         public List<Personel> PersonelListe { get; set; }
         public MainWindowVM()

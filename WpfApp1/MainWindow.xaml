@@ -15,9 +15,13 @@
 
 
     <dxmvvm:Interaction.Behaviors>
+        <dxmvvm:EventToCommand EventName="PreviewKeyDown"
+                                       Command="{Binding KeyDownCommand}"
+                                       SourceObject="{Binding ElementName=w1}" PassEventArgsToCommand="True"/>
+
         <dxmvvm:EventToCommand EventName="PastingFromClipboard"
                                        Command="{Binding PasteCommand}"
-                                       SourceObject="{Binding ElementName=g1}" PassEventArgsToCommand="True"/>
+                                       SourceObject="{Binding ElementName=w1}" PassEventArgsToCommand="True"/>
 
         <dxmvvm:EventToCommand EventName="ClipboardRowCellValuePasting"
                                        Command="{Binding ClipboardRowCellValuePastingCommand}"
@@ -60,6 +64,8 @@
                     <dxg:TableView.RowCellMenuCustomizations>
                         <dxb:BarButtonItem Content="Kopyala" Command="ApplicationCommands.Copy"/>
                         <dxb:BarButtonItem Content="Yapıştır" Command="ApplicationCommands.Paste"/>
+                      
+                       
                     </dxg:TableView.RowCellMenuCustomizations>
 
                 </dxg:TableView>
