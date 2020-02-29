@@ -3,6 +3,7 @@ using DevExpress.Xpf.Grid;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace WpfApp1
@@ -11,9 +12,9 @@ namespace WpfApp1
     {
         public string Ad { get; set; }
         public string Soyad { get; set; }
-        public int Yas { get; set; }
+        public int? Yas { get; set; }
 
-        public int Indirim { get; set; }
+        public int? Indirim { get; set; }
     }
 
     public class MainWindowVM
@@ -31,6 +32,17 @@ namespace WpfApp1
 
         private void OnPastingFromClipboard(PastingFromClipboardEventArgs obj)
         {
+            var w1 = (obj.Source as GridControl).View as TableView;
+            var g1 = w1.Grid;
+
+            var seciliHucreler = w1.GetSelectedCells();
+
+            var rawDataStr = Clipboard.GetText();
+
+            List<string[]> clipboardData = new List<string[]>();
+            string[] rows = rawDataStr.Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var item in rows) clipboardData.Add(item.Split('\t'));
         }
 
         private void OnClipboardRowPasting(ClipboardRowPastingEventArgs obj)

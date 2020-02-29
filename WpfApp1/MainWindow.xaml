@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
-    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
+    xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
        WindowStartupLocation="CenterScreen"
         x:Class="WpfApp1.MainWindow"
@@ -56,7 +57,7 @@
             </dxg:GridControl.TotalSummary>
 
             <dxg:GridControl.View>
-                <dxg:TableView
+                <dxg:TableView IndicatorWidth="40"
                      ShowFocusedRectangle="True"
                                 PasteMode="Update" EnterMoveNextColumn="False"
                                x:Name="w1" NewItemRowPosition="Bottom" RowMinHeight="30"
@@ -72,6 +73,22 @@
                         <dxb:BarButtonItem Content="Kopyala" Command="ApplicationCommands.Copy" />
                         <dxb:BarButtonItem Content="Yapıştır" Command="ApplicationCommands.Paste" />
                     </dxg:TableView.RowCellMenuCustomizations>
+
+                    <dxg:TableView.RowIndicatorContentTemplate>
+                        <DataTemplate>
+                            <DataTemplate.Resources>
+                                <local:HandleToIndexConverter x:Key="conv" />
+                            </DataTemplate.Resources>
+                            <TextBlock TextAlignment="Center">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource conv}">
+                                        <Binding Path="RowHandle.Value" />
+                                        <Binding Path="View.Grid" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </dxg:TableView.RowIndicatorContentTemplate>
                 </dxg:TableView>
             </dxg:GridControl.View>
 
@@ -80,5 +97,7 @@
             <dxg:GridColumn FieldName="Indirim" />
             <dxg:GridColumn FieldName="Yas" />
         </dxg:GridControl>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="75,30,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" />
+        <Button Content="Button" HorizontalAlignment="Left" Margin="200,25,0,0" VerticalAlignment="Top" Width="75" />
     </Grid>
 </Window>
