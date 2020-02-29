@@ -5,54 +5,58 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
-    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm" 
+    xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars" xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
        WindowStartupLocation="CenterScreen"
         x:Class="WpfApp1.MainWindow"
         mc:Ignorable="d"
-   
+
         Title="MainWindow" Height="526.4" Width="843.2">
 
-
     <dxmvvm:Interaction.Behaviors>
+
+        <!--<dxmvvm:EventToCommand EventName="PastingFromClipboard"
+                                       Command="{Binding PastingFromClipboardCommand}"
+                                       SourceObject="{Binding ElementName=w1}" PassEventArgsToCommand="True" />-->
+
+        <dxmvvm:EventToCommand EventName="ClipboardRowPasting"
+                                       Command="{Binding RowPastingCommand}"
+                                       SourceObject="{Binding ElementName=w1}"
+                                       PassEventArgsToCommand="True" />
+
+        <!--<dxmvvm:EventToCommand EventName="ClipboardRowCellValuePasting"
+                                       Command="{Binding RowCellValuePastingCommand}"
+                                       SourceObject="{Binding ElementName=w1}"
+                                       PassEventArgsToCommand="True" />
+
         <dxmvvm:EventToCommand EventName="PreviewKeyDown"
                                        Command="{Binding KeyDownCommand}"
-                                       SourceObject="{Binding ElementName=w1}" PassEventArgsToCommand="True"/>
-
-        <dxmvvm:EventToCommand EventName="PastingFromClipboard"
-                                       Command="{Binding PasteCommand}"
-                                       SourceObject="{Binding ElementName=w1}" PassEventArgsToCommand="True"/>
-
-        <dxmvvm:EventToCommand EventName="ClipboardRowCellValuePasting"
-                                       Command="{Binding ClipboardRowCellValuePastingCommand}"
-                                       CommandParameter="{x:Reference w1}"
-                                       SourceObject="{Binding ElementName=w1}" PassEventArgsToCommand="True"/>
-
-
+                                       SourceObject="{Binding ElementName=w1}" PassEventArgsToCommand="True" />-->
     </dxmvvm:Interaction.Behaviors>
 
-   
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="75.2"/>
-            <RowDefinition/>
+            <RowDefinition Height="75.2" />
+            <RowDefinition />
         </Grid.RowDefinitions>
-      
 
-        <dxg:GridControl x:Name="g1" ClipboardCopyMode="ExcludeHeader" 
+        <dxg:GridControl x:Name="g1" ClipboardCopyMode="ExcludeHeader"
                        ItemsSource="{Binding PersonelListe,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                        SelectionMode="Cell"
                        EnableSmartColumnsGeneration="True" Grid.Row="1" Margin="0,0.8,-0.4,0">
+            <dxmvvm:Interaction.Behaviors>
+                <dxmvvm:EventToCommand EventName="CopyingToClipboard" SourceName="w1" />
+            </dxmvvm:Interaction.Behaviors>
 
             <dxg:GridControl.TotalSummary>
-                  <dxg:GridSummaryItem Tag="1"  SummaryType="Custom" FieldName="Yas" />
+                <dxg:GridSummaryItem Tag="1"  SummaryType="Custom" FieldName="Yas" />
             </dxg:GridControl.TotalSummary>
 
             <dxg:GridControl.View>
-                <dxg:TableView  
+                <dxg:TableView
                      ShowFocusedRectangle="True"
-                                PasteMode="Update" EnterMoveNextColumn="False" 
-                               x:Name="w1" NewItemRowPosition="Bottom" RowMinHeight="30" 
+                                PasteMode="Update" EnterMoveNextColumn="False"
+                               x:Name="w1" NewItemRowPosition="Bottom" RowMinHeight="30"
                                ShowTotalSummary="True" AutoWidth="True">
 
                     <dxg:TableView.FocusedCellBorderTemplate>
@@ -62,23 +66,16 @@
                     </dxg:TableView.FocusedCellBorderTemplate>
 
                     <dxg:TableView.RowCellMenuCustomizations>
-                        <dxb:BarButtonItem Content="Kopyala" Command="ApplicationCommands.Copy"/>
-                        <dxb:BarButtonItem Content="Yapıştır" Command="ApplicationCommands.Paste"/>
-                      
-                       
+                        <dxb:BarButtonItem Content="Kopyala" Command="ApplicationCommands.Copy" />
+                        <dxb:BarButtonItem Content="Yapıştır" Command="ApplicationCommands.Paste" />
                     </dxg:TableView.RowCellMenuCustomizations>
-
                 </dxg:TableView>
-
             </dxg:GridControl.View>
-       
-            <dxg:GridColumn FieldName="Ad"/>
-            <dxg:GridColumn FieldName="Soyad"/>
-            <dxg:GridColumn FieldName="Indirim"/>
-            <dxg:GridColumn FieldName="Yas"/>
 
-
+            <dxg:GridColumn FieldName="Ad" />
+            <dxg:GridColumn FieldName="Soyad" />
+            <dxg:GridColumn FieldName="Indirim" />
+            <dxg:GridColumn FieldName="Yas" />
         </dxg:GridControl>
-
     </Grid>
 </Window>

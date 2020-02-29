@@ -3,8 +3,6 @@ using DevExpress.Xpf.Grid;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace WpfApp1
@@ -16,33 +14,54 @@ namespace WpfApp1
         public int Yas { get; set; }
 
         public int Indirim { get; set; }
-
     }
 
     public class MainWindowVM
     {
+        public DelegateCommand<PastingFromClipboardEventArgs> PastingFromClipboardCommand =>
+          new DelegateCommand<PastingFromClipboardEventArgs>(OnPastingFromClipboard);
 
-        //public DelegateCommand<ClipboardRowCellValuePastingEventArgs> ClipboardRowCellValuePastingCommand => new DelegateCommand<ClipboardRowCellValuePastingEventArgs>(OnCellValuePasting);
+        public DelegateCommand<ClipboardRowPastingEventArgs> RowPastingCommand =>
+            new DelegateCommand<ClipboardRowPastingEventArgs>(OnClipboardRowPasting);
+
+        public DelegateCommand<ClipboardRowCellValuePastingEventArgs> RowCellValuePastingCommand =>
+            new DelegateCommand<ClipboardRowCellValuePastingEventArgs>(OnRowCellValuePasting);
 
         public DelegateCommand<KeyEventArgs> KeyDownCommand => new DelegateCommand<KeyEventArgs>(OnKeyDown);
 
+        private void OnPastingFromClipboard(PastingFromClipboardEventArgs obj)
+        {
+        }
+
+        private void OnClipboardRowPasting(ClipboardRowPastingEventArgs obj)
+        {
+        }
+
+        private void OnRowCellValuePasting(ClipboardRowCellValuePastingEventArgs e)
+        {
+            if (e.Column.FieldName == "Ad")
+            {
+                var satir = PersonelListe.Where(c => c.Ad == e.Value.ToString());
+            }
+        }
+
         private void OnKeyDown(KeyEventArgs e)
         {
-            if(e.Key==Key.Delete)
+            if (e.Key == Key.Delete)
             {
                 var w1 = (e.Source as TableView);
-              
-                var cells =w1.GetSelectedCells();
+
+                var cells = w1.GetSelectedCells();
 
                 foreach (var cell in cells)
                 {
                     w1.Grid.SetCellValue(cell.RowHandle, cell.Column, null);
                 }
-
             }
         }
 
         public List<Personel> PersonelListe { get; set; }
+
         public MainWindowVM()
         {
             PersonelListe = new List<Personel>()
@@ -58,8 +77,6 @@ namespace WpfApp1
             {
                 PersonelListe.Add(new Personel { Ad = "." });
             }
-
         }
-
     }
 }
