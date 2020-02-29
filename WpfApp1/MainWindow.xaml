@@ -15,23 +15,26 @@
 
     <dxmvvm:Interaction.Behaviors>
 
-        <!--<dxmvvm:EventToCommand EventName="PastingFromClipboard"
+        <dxmvvm:EventToCommand EventName="PastingFromClipboard"
                                        Command="{Binding PastingFromClipboardCommand}"
-                                       SourceObject="{Binding ElementName=w1}" PassEventArgsToCommand="True" />-->
-
-        <dxmvvm:EventToCommand EventName="ClipboardRowPasting"
-                                       Command="{Binding RowPastingCommand}"
                                        SourceObject="{Binding ElementName=w1}"
                                        PassEventArgsToCommand="True" />
 
-        <!--<dxmvvm:EventToCommand EventName="ClipboardRowCellValuePasting"
+        <dxmvvm:EventToCommand EventName="ClipboardRowPasting"
+                                       Command="{Binding RowPastingCommand}"
+                                       SourceName="w1"
+                                       SourceObject="{Binding ElementName=w1}"
+                                       PassEventArgsToCommand="True" />
+
+        <dxmvvm:EventToCommand EventName="ClipboardRowCellValuePasting"
                                        Command="{Binding RowCellValuePastingCommand}"
                                        SourceObject="{Binding ElementName=w1}"
                                        PassEventArgsToCommand="True" />
 
         <dxmvvm:EventToCommand EventName="PreviewKeyDown"
                                        Command="{Binding KeyDownCommand}"
-                                       SourceObject="{Binding ElementName=w1}" PassEventArgsToCommand="True" />-->
+                                       SourceObject="{Binding ElementName=w1}"
+                                       PassEventArgsToCommand="True" />
     </dxmvvm:Interaction.Behaviors>
 
     <Grid>
