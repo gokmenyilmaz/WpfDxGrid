@@ -78,5 +78,28 @@ namespace WpfApp1
                 PersonelListe.Add(new Personel { Ad = "." });
             }
         }
+
+        private void FillCellsWithValue(GridCell targetRange)
+        {
+            //for (int columnIndex = 0; columnIndex < targetRange.ColumnCount; columnIndex++)
+            //{
+            //    for (int rowIndex = 1; rowIndex < targetRange.RowCount; rowIndex++)
+            //    {
+            //        if (targetRange[rowIndex, columnIndex].Value.IsEmpty)
+            //        {
+            //            // in case of column merge leave it empty
+            //            if (targetRange[rowIndex, columnIndex].IsMerged)
+            //            {
+            //                if (targetRange[rowIndex, columnIndex].GetMergedRanges().First().ColumnCount == 1)
+            //                    targetRange[rowIndex, columnIndex].Value = targetRange[rowIndex - 1, columnIndex].Value;
+            //            }
+            //            else
+            //            {
+            //                if (targetRange[rowIndex, columnIndex].Value.IsNumeric)
+            //                    targetRange[rowIndex, columnIndex].Value = targetRange[rowIndex - 1, columnIndex].Value;
+            //            }
+            //        }
+            //    }
+        }
     }
 }
