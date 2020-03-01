@@ -9,33 +9,92 @@ using System.Windows.Input;
 
 namespace WpfApp1
 {
-    public class Personel
-    {
-        public string AdSoyad { get; set; }
-
-        public int? KafileNo { get; set; }
-
-        public int? Yas { get; set; }
-
-        public int? Indirim { get; set; }
-
-        public DateTime? BaşlangıçSaati { get; set; }
-        public DateTime? BitişSaati { get; set; }
-    }
-
     public class MainWindowVM : MyBindableBase
     {
         private ObservableCollection<Personel> personelListe;
 
-        public DelegateCommand<PastingFromClipboardEventArgs> PastingFromClipboardCommand =>
-new DelegateCommand<PastingFromClipboardEventArgs>(OnPastingFromClipboard);
+        public MainWindowVM()
+        {
+            PersonelListe = new ObservableCollection<Personel>()
+            {
+                new Personel { AdSoyad="gökmen",Yas=23,Indirim=0,KafileNo=100},
+                new Personel { AdSoyad = "musa", Yas = 44,Indirim=0, BaşlangıçSaati=DateTime.Now },
+                new Personel { AdSoyad = "ayhan", Yas = 233,Indirim=0,KafileNo=200 },
+                new Personel { AdSoyad = "faruk",  Yas = 44,Indirim=0 },
+                new Personel { AdSoyad = "izzet", Yas = 233,Indirim=0 }
+            };
+
+            for (int i = 0; i < 1000 - PersonelListe.Count; i++)
+            {
+                PersonelListe.Add(new Personel { AdSoyad = "." });
+            }
+        }
+
+        public DelegateCommand<CellValueChangedEventArgs> CellValueChangedCommand =>
+                                    new DelegateCommand<CellValueChangedEventArgs>(OnKeyCellValueChanged);
+
+        public DelegateCommand<TableView> IcerigiTemizleCommand => new DelegateCommand<TableView>(OnIcerikTemizle);
 
         public DelegateCommand<KeyEventArgs> KeyDownCommand => new DelegateCommand<KeyEventArgs>(OnKeyDown);
-        public DelegateCommand<TableView> UsteSatirEkleCommand => new DelegateCommand<TableView>(OnUsteSatirEkle);
+
+        public DelegateCommand<PastingFromClipboardEventArgs> PastingFromClipboardCommand =>
+                        new DelegateCommand<PastingFromClipboardEventArgs>(OnPastingFromClipboard);
+
+        public ObservableCollection<Personel> PersonelListe { get => personelListe; set => SetProperty(ref personelListe, value); }
 
         public DelegateCommand<TableView> SilCommand => new DelegateCommand<TableView>(OnSil);
 
-        public DelegateCommand<TableView> IcerigiTemizleCommand => new DelegateCommand<TableView>(OnIcerikTemizle);
+        public DelegateCommand<TableView> UsteSatirEkleCommand => new DelegateCommand<TableView>(OnUsteSatirEkle);
+
+        public List<string[]> GetClipboardData()
+        {
+            var rawDataStr = Clipboard.GetText();
+
+            List<string[]> clipboardData = new List<string[]>();
+            string[] rows = rawDataStr.Split(new string[] { "\r\n" }, StringSplitOptions.None);
+
+            foreach (var item in rows)
+            {
+                clipboardData.Add(item.Split('\t'));
+            }
+
+            return clipboardData;
+        }
+
+        private void OnCellValueChanged(string fieldName, object row, object value)
+        {
+            var seciliSatir = (Personel)row;
+
+            if (fieldName == "KafileNo" && value != null)
+            {
+                var perRow = (Personel)row;
+                var kafileNo = value.ToString().Length == 0 ? -1 : int.Parse(value?.ToString());
+
+                var satir = PersonelListe.Where(c => c.KafileNo == kafileNo).FirstOrDefault();
+                if (satir != null)
+                {
+                    perRow.Yas = satir.Yas;
+                }
+            }
+
+            if (fieldName == nameof(seciliSatir.BitişSaati))
+            {
+                var index = personelListe.IndexOf(seciliSatir);
+
+                if (seciliSatir.BaşlangıçSaati.GetValueOrDefault() > seciliSatir.bitişSaati.GetValueOrDefault())
+                {
+                    seciliSatir.bitişSaati = seciliSatir.BitişSaati?.AddDays(1);
+                }
+
+                if (index > 0)
+                {
+                    var sonrakiSatir = PersonelListe[index + 1];
+                    sonrakiSatir.BaşlangıçSaati = seciliSatir.BitişSaati;
+
+                    sonrakiSatir.bitişSaati = seciliSatir.BitişSaati?.Date;
+                }
+            }
+        }
 
         private void OnIcerikTemizle(TableView w1)
         {
@@ -47,13 +106,36 @@ new DelegateCommand<PastingFromClipboardEventArgs>(OnPastingFromClipboard);
             }
         }
 
-        private void OnSil(TableView obj)
+        private void OnKeyCellValueChanged(CellValueChangedEventArgs e)
         {
-            var x = obj.GetSelectedRows().Select(c => c.Row).ToList();
-            x.ForEach(item =>
+            var row = e.Cell.Row;
+            var value = e.Cell.Value;
+            var fieldName = e.Cell.Property;
+
+            OnCellValueChanged(fieldName, row, value);
+        }
+
+        private void OnKeyDown(KeyEventArgs e)
+        {
+            var w1 = (e.Source as TableView);
+            var g1 = w1.Grid;
+
+            if (e.Key == Key.Enter)
             {
-                PersonelListe.Remove(item as Personel);
-            });
+                w1.MoveNextRow();
+                g1.UnselectAll();
+                w1.SelectCell(w1.FocusedRowHandle, (GridColumn)g1.CurrentColumn);
+            }
+
+            if (e.Key == Key.Delete)
+            {
+                var cells = w1.GetSelectedCells();
+
+                foreach (var cell in cells)
+                {
+                    w1.Grid.SetCellValue(cell.RowHandle, cell.Column, null);
+                }
+            }
         }
 
         private void OnPastingFromClipboard(PastingFromClipboardEventArgs e)
@@ -98,6 +180,15 @@ new DelegateCommand<PastingFromClipboardEventArgs>(OnPastingFromClipboard);
             w1.FocusedRowHandle--;
         }
 
+        private void OnSil(TableView obj)
+        {
+            var x = obj.GetSelectedRows().Select(c => c.Row).ToList();
+            x.ForEach(item =>
+            {
+                PersonelListe.Remove(item as Personel);
+            });
+        }
+
         private void OnUsteSatirEkle(TableView w1)
         {
             var yeni = new Personel();
@@ -117,77 +208,20 @@ new DelegateCommand<PastingFromClipboardEventArgs>(OnPastingFromClipboard);
 
             w1.SelectCell(w1.FocusedRowHandle, (GridColumn)w1.Grid.CurrentColumn);
         }
+    }
 
-        private void OnCellValueChanged(string fieldName, object row, object value)
-        {
-            if (fieldName == "KafileNo")
-            {
-                var perRow = (Personel)row;
-                var kafileNo = value.ToString().Length == 0 ? -1 : int.Parse(value.ToString());
+    public class Personel : MyBindableBase
+    {
+        public DateTime? başlangıçSaati;
+        public DateTime? bitişSaati;
 
-                var satir = PersonelListe.Where(c => c.KafileNo == kafileNo).FirstOrDefault();
-                if (satir != null)
-                {
-                    perRow.Yas = satir.Yas;
-                }
-            }
-        }
+        public string AdSoyad { get; set; }
 
-        public List<string[]> GetClipboardData()
-        {
-            var rawDataStr = Clipboard.GetText();
+        public DateTime? BaşlangıçSaati { get => başlangıçSaati; set => SetProperty(ref başlangıçSaati, value); }
+        public DateTime? BitişSaati { get => bitişSaati; set => SetProperty(ref bitişSaati, value); }
+        public int? Indirim { get; set; }
+        public int? KafileNo { get; set; }
 
-            List<string[]> clipboardData = new List<string[]>();
-            string[] rows = rawDataStr.Split(new string[] { "\r\n" }, StringSplitOptions.None);
-
-            foreach (var item in rows)
-            {
-                clipboardData.Add(item.Split('\t'));
-            }
-
-            return clipboardData;
-        }
-
-        private void OnKeyDown(KeyEventArgs e)
-        {
-            var w1 = (e.Source as TableView);
-            var g1 = w1.Grid;
-
-            if (e.Key == Key.Enter)
-            {
-                w1.MoveNextRow();
-                g1.UnselectAll();
-                w1.SelectCell(w1.FocusedRowHandle, (GridColumn)g1.CurrentColumn);
-            }
-
-            if (e.Key == Key.Delete)
-            {
-                var cells = w1.GetSelectedCells();
-
-                foreach (var cell in cells)
-                {
-                    w1.Grid.SetCellValue(cell.RowHandle, cell.Column, null);
-                }
-            }
-        }
-
-        public ObservableCollection<Personel> PersonelListe { get => personelListe; set => SetProperty(ref personelListe, value); }
-
-        public MainWindowVM()
-        {
-            PersonelListe = new ObservableCollection<Personel>()
-            {
-                new Personel { AdSoyad="gökmen",Yas=23,Indirim=0,KafileNo=100},
-                new Personel { AdSoyad = "musa", Yas = 44,Indirim=0, BaşlangıçSaati=DateTime.Now },
-                new Personel { AdSoyad = "ayhan", Yas = 233,Indirim=0,KafileNo=200 },
-                new Personel { AdSoyad = "faruk",  Yas = 44,Indirim=0 },
-                new Personel { AdSoyad = "izzet", Yas = 233,Indirim=0 }
-            };
-
-            for (int i = 0; i < 1000 - PersonelListe.Count; i++)
-            {
-                PersonelListe.Add(new Personel { AdSoyad = "." });
-            }
-        }
+        public int? Yas { get; set; }
     }
 }

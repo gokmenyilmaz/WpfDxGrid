@@ -33,6 +33,12 @@ namespace WpfApp1
 
             //w1.ClipboardRowPasting += W1_ClipboardRowPasting;
             //w1.ClipboardRowCellValuePasting += W1_ClipboardRowCellValuePasting;
+
+            //w1.CellValueChanged += W1_CellValueChanged;
+        }
+
+        private void W1_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
         }
 
         private void G1_PastingFromClipboard(object sender, DevExpress.Xpf.Grid.PastingFromClipboardEventArgs e)

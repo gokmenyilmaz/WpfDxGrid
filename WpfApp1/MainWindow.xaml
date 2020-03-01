@@ -8,6 +8,7 @@
     xmlns:dxb="http://schemas.devexpress.com/winfx/2008/xaml/bars"
     xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
     xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core"
+      xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
     xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
     WindowStartupLocation="CenterScreen"
         x:Class="WpfApp1.MainWindow"
@@ -22,14 +23,8 @@
                                        SourceObject="{Binding ElementName=w1}"
                                        PassEventArgsToCommand="True" />
 
-        <dxmvvm:EventToCommand EventName="ClipboardRowPasting"
-                                       Command="{Binding RowPastingCommand}"
-                                       SourceName="w1"
-                                       SourceObject="{Binding ElementName=w1}"
-                                       PassEventArgsToCommand="True" />
-
-        <dxmvvm:EventToCommand EventName="ClipboardRowCellValuePasting"
-                                       Command="{Binding RowCellValuePastingCommand}"
+        <dxmvvm:EventToCommand EventName="CellValueChanged"
+                                       Command="{Binding CellValueChangedCommand}"
                                        SourceObject="{Binding ElementName=w1}"
                                        PassEventArgsToCommand="True" />
 
@@ -49,6 +44,13 @@
                        ItemsSource="{Binding PersonelListe,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                        SelectionMode="Cell"
                        EnableSmartColumnsGeneration="True" Grid.Row="1" Margin="0,0.8,-0.4,0">
+            <dxg:GridControl.Resources>
+                <Style x:Key="grayCell" TargetType="dxg:LightweightCellEditor"
+                        BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}">
+                    <Setter Property="Background" Value="WhiteSmoke" />
+                </Style>
+            </dxg:GridControl.Resources>
+
             <dxmvvm:Interaction.Behaviors>
                 <dxmvvm:EventToCommand EventName="CopyingToClipboard" SourceName="w1" />
             </dxmvvm:Interaction.Behaviors>
@@ -109,10 +111,10 @@
             <dxg:GridColumn FieldName="AdSoyad" />
             <dxg:GridColumn FieldName="KafileNo" />
 
-            <dxg:GridColumn   CopyValueAsDisplayText="False"    Name="baslamaZamani" Header="Başlama Zamanı"   Width="70" FieldName="BaşlangıçSaati">
+            <dxg:GridColumn  CopyValueAsDisplayText="False"  CellStyle="{StaticResource grayCell}"   Name="baslamaZamani" Header="Başlama Zamanı"   Width="70" FieldName="BaşlangıçSaati">
                 <dxg:GridColumn.EditSettings>
-                    <dxe:DateEditSettings   Mask="D"  HorizontalContentAlignment="Center" AllowNullInput="True"
-                    DisplayFormat="d"
+                    <dxe:DateEditSettings   Mask="HH:mm"  HorizontalContentAlignment="Center" AllowNullInput="True"
+
                                              MaskType="DateTimeAdvancingCaret">
                     </dxe:DateEditSettings>
                 </dxg:GridColumn.EditSettings>
@@ -131,7 +133,7 @@
                                     FieldName="BitişSaati">
                 <dxg:GridColumn.EditSettings>
                     <dxe:DateEditSettings HorizontalContentAlignment="Center" Mask="HH:mm" AllowNullInput="True"
-                                                  MaskType="DateTimeAdvancingCaret" DisplayFormat="HH:mm ddd" />
+                                                  MaskType="DateTimeAdvancingCaret" />
                 </dxg:GridColumn.EditSettings>
 
                 <dxg:GridColumn.DisplayTemplate>
