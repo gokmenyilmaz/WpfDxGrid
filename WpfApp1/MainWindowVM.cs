@@ -101,10 +101,18 @@ namespace WpfApp1
 
         private void OnKeyDown(KeyEventArgs e)
         {
+            var w1 = (e.Source as TableView);
+            var g1 = w1.Grid;
+
+            if (e.Key == Key.Enter)
+            {
+                w1.MoveNextRow();
+                g1.UnselectAll();
+                w1.SelectCell(w1.FocusedRowHandle, (GridColumn)g1.CurrentColumn);
+            }
+
             if (e.Key == Key.Delete)
             {
-                var w1 = (e.Source as TableView);
-
                 var cells = w1.GetSelectedCells();
 
                 foreach (var cell in cells)
