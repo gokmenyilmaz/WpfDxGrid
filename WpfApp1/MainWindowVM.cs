@@ -2,6 +2,7 @@
 using DevExpress.Xpf.Grid;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -10,22 +11,47 @@ namespace WpfApp1
 {
     public class Personel
     {
-        public string Ad { get; set; }
+        public string AdSoyad { get; set; }
 
         public int? KafileNo { get; set; }
 
-        public string Soyad { get; set; }
         public int? Yas { get; set; }
 
         public int? Indirim { get; set; }
     }
 
-    public class MainWindowVM
+    public class MainWindowVM : MyBindableBase
     {
+        private ObservableCollection<Personel> personelListe;
+
         public DelegateCommand<PastingFromClipboardEventArgs> PastingFromClipboardCommand =>
-          new DelegateCommand<PastingFromClipboardEventArgs>(OnPastingFromClipboard);
+new DelegateCommand<PastingFromClipboardEventArgs>(OnPastingFromClipboard);
 
         public DelegateCommand<KeyEventArgs> KeyDownCommand => new DelegateCommand<KeyEventArgs>(OnKeyDown);
+        public DelegateCommand<TableView> UsteSatirEkleCommand => new DelegateCommand<TableView>(OnUsteSatirEkle);
+
+        public DelegateCommand<TableView> SilCommand => new DelegateCommand<TableView>(OnSil);
+
+        public DelegateCommand<TableView> IcerigiTemizleCommand => new DelegateCommand<TableView>(OnIcerikTemizle);
+
+        private void OnIcerikTemizle(TableView w1)
+        {
+            var cells = w1.GetSelectedCells();
+
+            foreach (var cell in cells)
+            {
+                w1.Grid.SetCellValue(cell.RowHandle, cell.Column, null);
+            }
+        }
+
+        private void OnSil(TableView obj)
+        {
+            var x = obj.GetSelectedRows().Select(c => c.Row).ToList();
+            x.ForEach(item =>
+            {
+                PersonelListe.Remove(item as Personel);
+            });
+        }
 
         private void OnPastingFromClipboard(PastingFromClipboardEventArgs e)
         {
@@ -67,6 +93,26 @@ namespace WpfApp1
                 }
             }
             w1.FocusedRowHandle--;
+        }
+
+        private void OnUsteSatirEkle(TableView w1)
+        {
+            var yeni = new Personel();
+            yeni.AdSoyad = "kemalettin";
+
+            var aktifIndex = PersonelListe.IndexOf((Personel)w1.Grid.SelectedItem);
+
+            var ustIndex = aktifIndex;
+            if (ustIndex >= 0)
+            {
+                PersonelListe.Insert(ustIndex, yeni);
+            }
+
+            w1.FocusedRowHandle--;
+
+            w1.Grid.UnselectAll();
+
+            w1.SelectCell(w1.FocusedRowHandle, (GridColumn)w1.Grid.CurrentColumn);
         }
 
         private void OnCellValueChanged(string fieldName, object row, object value)
@@ -122,22 +168,22 @@ namespace WpfApp1
             }
         }
 
-        public List<Personel> PersonelListe { get; set; }
+        public ObservableCollection<Personel> PersonelListe { get => personelListe; set => SetProperty(ref personelListe, value); }
 
         public MainWindowVM()
         {
-            PersonelListe = new List<Personel>()
+            PersonelListe = new ObservableCollection<Personel>()
             {
-                new Personel { Ad="gökmen",Soyad="a",Yas=23,Indirim=0,KafileNo=100},
-                new Personel { Ad = "musa", Soyad = "b", Yas = 44,Indirim=0 },
-                new Personel { Ad = "ayhan", Soyad = "c", Yas = 233,Indirim=0,KafileNo=200 },
-                new Personel { Ad = "faruk", Soyad = "d", Yas = 44,Indirim=0 },
-                new Personel { Ad = "izzet", Soyad = "e", Yas = 233,Indirim=0 }
+                new Personel { AdSoyad="gökmen",Yas=23,Indirim=0,KafileNo=100},
+                new Personel { AdSoyad = "musa", Yas = 44,Indirim=0 },
+                new Personel { AdSoyad = "ayhan", Yas = 233,Indirim=0,KafileNo=200 },
+                new Personel { AdSoyad = "faruk",  Yas = 44,Indirim=0 },
+                new Personel { AdSoyad = "izzet", Yas = 233,Indirim=0 }
             };
 
             for (int i = 0; i < 1000 - PersonelListe.Count; i++)
             {
-                PersonelListe.Add(new Personel { Ad = "." });
+                PersonelListe.Add(new Personel { AdSoyad = "." });
             }
         }
     }

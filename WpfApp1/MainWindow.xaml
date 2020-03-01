@@ -72,6 +72,19 @@
                     <dxg:TableView.RowCellMenuCustomizations>
                         <dxb:BarButtonItem Content="Kopyala" Command="ApplicationCommands.Copy" />
                         <dxb:BarButtonItem Content="Yapıştır" Command="ApplicationCommands.Paste" />
+                        <dxb:BarButtonItem Command="{Binding View.DataContext.IcerigiTemizleCommand}"
+                                           CommandParameter="{Binding ElementName=w1}"
+                                           Content="İçeriğiTemizle" />
+
+                        <dxb:BarButtonItem Content="-------------" />
+
+                        <dxb:BarButtonItem  Glyph="{dx:DXImage Image=Add_16x16.png}" Command="{Binding View.DataContext.UsteSatirEkleCommand}"
+                                            CommandParameter="{Binding ElementName=w1}"
+                                             Content="Ekle..." />
+
+                        <dxb:BarButtonItem Glyph="{dx:DXImage Image=Delete_16x16.png}" Command="{Binding View.DataContext.SilCommand}"
+                                           CommandParameter="{Binding ElementName=w1}"
+                                           Content="Sil..." />
                     </dxg:TableView.RowCellMenuCustomizations>
 
                     <dxg:TableView.RowIndicatorContentTemplate>
@@ -92,14 +105,11 @@
                 </dxg:TableView>
             </dxg:GridControl.View>
 
-            <dxg:GridColumn FieldName="Ad" />
+            <dxg:GridColumn FieldName="AdSoyad" />
             <dxg:GridColumn FieldName="KafileNo" />
-            <dxg:GridColumn FieldName="Soyad">
-            </dxg:GridColumn>
+
             <dxg:GridColumn FieldName="Indirim" />
             <dxg:GridColumn FieldName="Yas" />
         </dxg:GridControl>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="75,30,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click" />
-        <Button Content="Button" HorizontalAlignment="Left" Margin="200,25,0,0" VerticalAlignment="Top" Width="75" />
     </Grid>
 </Window>
