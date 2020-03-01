@@ -18,6 +18,9 @@ namespace WpfApp1
         public int? Yas { get; set; }
 
         public int? Indirim { get; set; }
+
+        public DateTime? BaşlangıçSaati { get; set; }
+        public DateTime? BitişSaati { get; set; }
     }
 
     public class MainWindowVM : MyBindableBase
@@ -175,7 +178,7 @@ new DelegateCommand<PastingFromClipboardEventArgs>(OnPastingFromClipboard);
             PersonelListe = new ObservableCollection<Personel>()
             {
                 new Personel { AdSoyad="gökmen",Yas=23,Indirim=0,KafileNo=100},
-                new Personel { AdSoyad = "musa", Yas = 44,Indirim=0 },
+                new Personel { AdSoyad = "musa", Yas = 44,Indirim=0, BaşlangıçSaati=DateTime.Now },
                 new Personel { AdSoyad = "ayhan", Yas = 233,Indirim=0,KafileNo=200 },
                 new Personel { AdSoyad = "faruk",  Yas = 44,Indirim=0 },
                 new Personel { AdSoyad = "izzet", Yas = 233,Indirim=0 }
