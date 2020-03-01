@@ -86,13 +86,9 @@ namespace WpfApp1
                     seciliSatir.bitişSaati = seciliSatir.BitişSaati?.AddDays(1);
                 }
 
-                if (index > 0)
-                {
-                    var sonrakiSatir = PersonelListe[index + 1];
-                    sonrakiSatir.BaşlangıçSaati = seciliSatir.BitişSaati;
-
-                    sonrakiSatir.bitişSaati = seciliSatir.BitişSaati?.Date;
-                }
+                var sonrakiSatir = PersonelListe[index + 1];
+                sonrakiSatir.BaşlangıçSaati = seciliSatir.BitişSaati;
+                sonrakiSatir.bitişSaati = seciliSatir.BitişSaati?.Date;
             }
         }
 

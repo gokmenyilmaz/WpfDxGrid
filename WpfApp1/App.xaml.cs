@@ -18,9 +18,6 @@ namespace WpfApp1
         {
             FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement),
                 new FrameworkPropertyMetadata(System.Windows.Markup.XmlLanguage.GetLanguage("tr-TR")));
-
-            MainWindow startWindow = new MainWindow();
-            startWindow.Show();
         }
     }
 }
