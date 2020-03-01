@@ -45,9 +45,15 @@
                        SelectionMode="Cell"
                        EnableSmartColumnsGeneration="True" Grid.Row="1" Margin="0,0.8,-0.4,0">
             <dxg:GridControl.Resources>
-                <Style x:Key="grayCell" TargetType="dxg:LightweightCellEditor"
+
+                <Style  TargetType="dxg:LightweightCellEditor"
                         BasedOn="{StaticResource {dxgt:GridRowThemeKey ResourceKey=LightweightCellStyle}}">
-                    <Setter Property="Background" Value="WhiteSmoke" />
+                    <Style.Triggers>
+                        <Trigger Property="SelectionState" Value="FocusedAndSelected">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="TextBlock.Foreground" Value="Black" />
+                        </Trigger>
+                    </Style.Triggers>
                 </Style>
             </dxg:GridControl.Resources>
 
@@ -111,7 +117,7 @@
             <dxg:GridColumn FieldName="AdSoyad" />
             <dxg:GridColumn FieldName="KafileNo" />
 
-            <dxg:GridColumn  CopyValueAsDisplayText="False"  CellStyle="{StaticResource grayCell}"   Name="baslamaZamani" Header="Başlama Zamanı"   Width="70" FieldName="BaşlangıçSaati">
+            <dxg:GridColumn  CopyValueAsDisplayText="False"     Name="baslamaZamani" Header="Başlama Zamanı"   Width="70" FieldName="BaşlangıçSaati">
                 <dxg:GridColumn.EditSettings>
                     <dxe:DateEditSettings   Mask="HH:mm"  HorizontalContentAlignment="Center" AllowNullInput="True"
 
