@@ -129,7 +129,7 @@
                 </dxg:GridColumn.DisplayTemplate>
             </dxg:GridColumn>
 
-            <dxg:GridColumn  CopyValueAsDisplayText="True"   Header="Bitiş Zamanı" Width="70"   HorizontalHeaderContentAlignment="Center"
+            <dxg:GridColumn  CopyValueAsDisplayText="False"   Header="Bitiş Zamanı" Width="70"   HorizontalHeaderContentAlignment="Center"
                                     FieldName="BitişSaati">
                 <dxg:GridColumn.EditSettings>
                     <dxe:DateEditSettings HorizontalContentAlignment="Center" Mask="HH:mm" AllowNullInput="True"
@@ -144,12 +144,6 @@
                         </StackPanel>
                     </ControlTemplate>
                 </dxg:GridColumn.DisplayTemplate>
-            </dxg:GridColumn>
-
-            <dxg:GridColumn FieldName="BaşlangıçSaati">
-                <dxg:GridColumn.EditSettings>
-                    <dxe:DateEditSettings DisplayFormat="dd/MM/yyyy HH:mm" />
-                </dxg:GridColumn.EditSettings>
             </dxg:GridColumn>
             <dxg:GridColumn FieldName="Indirim" />
             <dxg:GridColumn FieldName="Yas" />
